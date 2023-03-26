@@ -1,0 +1,5 @@
+DISPLAY_NAME=kriger bot
+DESCRIPTION=bot kriger
+MAIN=main.py
+MEMORY=128
+VERSION=recommended
