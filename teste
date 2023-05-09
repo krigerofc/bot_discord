@@ -1,0 +1,15 @@
+
+          verificar = inter.channel.threads
+          if disnake.utils.get(verificar, name=inter.author.name):
+            alerta = disnake.Embed(title='Opa, opa...', description='Você já tem um ticket em aberto.\nAguarde ou feche o anterior.', colour=disnake.Colour.from_rgb(128, 0, 255))
+            alerta.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/3472/3472621.png')
+            alerta.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+            dm = await inter.author.create_dm()
+            await dm.send(embed=alerta)
+          else:
+            thread = await inter.channel.create_thread(name=inter.author.name, type=disnake.ChannelType.private_thread, reason='Pedido de Suporte')
+            new_chat = disnake.Embed(title='🎫Ticket Aberto', description=f'Olá, {inter.author.name}\nVocê acabou de abrir um ticket!\nEscreva abaixo qual seu problema e\nAguarde um staff para atende-lo.', colour=disnake.Colour.from_rgb(128, 0, 255))
+            new_chat.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/10135/10135912.png')
+            new_chat.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+            await thread.send(embed=new_chat ,content=f'{inter.author.mention}')
+          inter.send('a')
