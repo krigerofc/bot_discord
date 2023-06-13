@@ -6,7 +6,7 @@ Estou desenvolvendo esse bot administrativos para servidores do discord.
 
 <h2>Sobre o bot e suas funções</h2>
 
-**Objetivos principais:**
+**Objetivos principais**
 
 <p>Esté bot foi feito para ajudar servidores em tarefas chatas tornando elas tarefas<br>
 que são resolvidas em um comando, além disso ele também contem comandos<br>
@@ -23,13 +23,13 @@ para Adminis e Moderados como /ban /kick.</p>
 + Automatização
 + Eficiência
 
-# Convide o bot para seu servidor:
+# Convide o bot para seu servidor
 
 >[Link do bot](https://discord.com/oauth2/authorize?client_id=611815236592205824&permissions=8&scope=bot)
 
 ![image](https://github.com/krigerofc/discord-bot/assets/118851624/28fcf2fe-5253-4e85-8dc3-d33a52d1b107)
 
- #atualizações:
+ # atualizações:
 
  <p>Atualmente o projeto está parado por falta de criatividade e tempo<br>
   Porem pretendo trazer o projeto de volta e adicionar mais funções assim que possível<br>
