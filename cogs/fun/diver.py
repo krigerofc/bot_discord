@@ -58,7 +58,7 @@ class Diversao(commands.Cog):
                 'https://media1.giphy.com/media/lrr9rHuoJOE0w/giphy.gif?cid=ecf05e47hsb3ouy954fin75vy0az49elhwbfb1i9o6ck7pre&rid=giphy.gif&ct=g',
                 'https://media1.giphy.com/media/ythHeq4Qgx2De/giphy.gif?cid=ecf05e47jyeie0o5gq4jsd8g12zonv0x0cxksjiulhs75xuu&rid=giphy.gif&ct=g']
         sorteio = randint(0, len(gifs))
-        hug = disnake.Embed(title='💗 Fofos!', description=f'{inter.author.mention} **deu um abraço em** {membro.mention}', colour=disnake.Colour.from_rgb(128, 0, 255))
+        hug = disnake.Embed(title='💗!', description=f'{inter.author.mention} **deu um abraço em** {membro.mention}', colour=disnake.Colour.from_rgb(128, 0, 255))
         hug.set_image(url=gifs[sorteio])
         await inter.send(embed=hug, allowed_mentions=disnake.AllowedMentions(users=True), content=f'||{inter.author.mention} {membro.mention}||')
 
@@ -71,7 +71,7 @@ class Diversao(commands.Cog):
                 'https://media3.giphy.com/media/11rWoZNpAKw8w/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
                 'https://media0.giphy.com/media/EVODaJHSXZGta/giphy.gif?cid=ecf05e47lry0kafea5bw41atharic9wrdrb9mtgj8e6pq0al&rid=giphy.gif&ct=g']
         sorteio = randint(0, len(gifs))
-        bj = disnake.Embed(title='💕 Os apaixonados!', description=f'{inter.author.mention} **deu um beijo em** {membro.mention}', colour=disnake.Colour.from_rgb(128, 0, 255))
+        bj = disnake.Embed(title='💕!', description=f'{inter.author.mention} **deu um beijo em** {membro.mention}', colour=disnake.Colour.from_rgb(128, 0, 255))
         bj.set_image(url=gifs[sorteio])
         await inter.send(embed=bj, allowed_mentions=disnake.AllowedMentions(users=True), content=f'||{inter.author.mention} {membro.mention}||')
 
@@ -86,6 +86,24 @@ class Diversao(commands.Cog):
         tapa = disnake.Embed(title='🚨 Treta!', description=f'{inter.author.mention} **deu um tapa em** {membro.mention}', colour=disnake.Colour.from_rgb(128, 0, 255))
         tapa.set_image(url=gifs[sorteio])
         await inter.send(embed=tapa, allowed_mentions=disnake.AllowedMentions(users=True), content=f'||{inter.author.mention} {membro.mention}||')
+
+    @commands.Cog.listener()
+    async def on_message(self, message: disnake.Message):
+        from random import randint
+
+        tupla_de_frases = ("Sim", "Não", "Você é estranho...", "Olá esquisitinho", "você acha?",
+                           "Será ?", "Me explique melhor", "Talvez o silêncio seja a melhor opção",
+                           'Eu prefiro não comentar.', 'SIM, SIM!!', 'Como não pensei nisso antes',
+                           'Quanta burrice', 'Ave maria', 'Vish, começou a delirar', 'você tem certeza?'
+                           'Dessa vez vou ficar de fora', 'QUEM ESTÁ TIRANDO MEU SONO😡', 'Inocente',
+                           'Sua cara não queima?', 'Discordo totalmente', 'Sou um anjo', 'Prefiro um sorvete')
+
+        palavra = tupla_de_frases[randint(0, len(tupla_de_frases)-1)]
+        
+        if 'kriger' in message.content:
+            await message.channel.send(content=f'{palavra}')
+
+
 
 
 def setup(bot:commands.Bot):
