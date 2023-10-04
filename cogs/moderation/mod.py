@@ -5,8 +5,7 @@ from disnake.ext import commands
 class Menu(commands.Cog):
     def __init__(self, bot: commands.Bot):
         #definimos que o bot deve ser do tipo commands.Bot ou seja o parametro só aceita esse tipo 
-        self.bot = bot
-      
+        self.bot = bot     
 
     @commands.slash_command(name="rr", description="reini")
     async def rr(self,inter:disnake.ApplicationCommandInteraction):
@@ -66,6 +65,7 @@ class Menu(commands.Cog):
 
           embed.set_image(url='https://media4.giphy.com/media/3ohzdOOXqGR7sFyMoM/giphy.gif?cid=ecf05e47hpzoxlx4h1zxxtte1sl2mdjrw7v96ih2ynzmvb1t&rid=giphy.gif&ct=g')
           await inter.send(embed=embed)
+          
         elif inter.author.guild_permissions.administrator == False:
           erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
           erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')
@@ -124,19 +124,17 @@ class Menu(commands.Cog):
         ticket  = disnake.Embed(title='🔔 Suporte 24h', description='Olá, este é o chat de suporte.\nCaso tenha alguma dúvida ou problema basta apertar o botão abaixo e um ticket será criado, assim um staff irá te ajudar!', colour=disnake.Colour.from_rgb(128, 0, 255))
         ticket.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/5821/5821865.png')
         ticket.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
-        visual = disnake.ui.View()
+        visual = disnake.ui.View(timeout=None)
         menu = disnake.ui.Button(label='Abrir ticket', custom_id='ticket1', style=disnake.ButtonStyle.blurple, emoji='📢')
         menu.is_persistent()
 
         async def criar_ticker(inter:disnake.MessageInteraction):
           staff = disnake.utils.get(inter.guild.roles, id=int(id_cargo_staff))
-
           verificar = inter.channel.threads
           if disnake.utils.get(verificar, name=inter.author.name):
-            alerta = disnake.Embed(title='Opa, opa...', description='Você já tem um ticket em aberto.\nAguarde ou feche o anterior.', colour=disnake.Colour.from_rgb(128, 0, 255))
+            alerta = disnake.Embed(title='Opa, opa...', description='Você já tem um ticket em aberto!!\nAguarde ou feche o anterior.', colour=disnake.Colour.from_rgb(128, 0, 255))
             alerta.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/3472/3472621.png')
             alerta.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
-
             dm = await inter.author.create_dm()
             await dm.send(embed=alerta)
             await inter.send('Ops, verifique seu privado...', delete_after=5, ephemeral=True)
@@ -148,9 +146,8 @@ class Menu(commands.Cog):
             new_chat.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/10135/10135912.png')
             new_chat.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
 
-            visual2 = disnake.ui.View()
+            visual2 = disnake.ui.View(timeout=None)
             fechar_ticket = disnake.ui.Button(label='Fechar ticket', emoji='❌', style=disnake.ButtonStyle.blurple, custom_id='fechar')
-
             async def fechar(inter:disnake.MessageInteraction):
               await thread.delete(reason='Ticket encerrado')
 
@@ -169,6 +166,7 @@ class Menu(commands.Cog):
         erro.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
         await inter.send(embed=erro)
 
+    #@commands.slash_command(name='mute', description='Mute um')
 # parametro bot definido como tipo commandos.Bot() para aceitar apenas bot
 # adicionando a engranagem(cog) menu e mandando de parametro para a classe o bot
 # onde a classe vai acessar a engrenagem do bot

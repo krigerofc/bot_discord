@@ -1,1 +1,2 @@
 disnake
+mysql-connector-python
