@@ -75,9 +75,9 @@ class Menu(commands.Cog):
           await inter.send('O bot não pode fazer isso.')
 
     @commands.slash_command(name='anunciar',description='Use o bot para anunciar algo')
-    async def anuncio(self,inter:disnake.ApplicationCommandInteraction, anuncio, link_associado='', imagem_link='', categoria='', texto_cate='', categoria2='', texto_cate2=''):
+    async def anuncio(self,inter:disnake.ApplicationCommandInteraction, anuncio, anuncio_desc, link_associado='', imagem_link='', categoria='', texto_cate='', categoria2='', texto_cate2=''):
         if inter.author.guild_permissions.manage_messages:
-          anuncio2 = disnake.Embed(title='Anuncio!!',description=anuncio,colour=disnake.Colour.from_rgb(128, 0, 255))
+          anuncio2 = disnake.Embed(title=anuncio, description=anuncio_desc, colour=disnake.Colour.from_rgb(128, 0, 255))
 
           anuncio2.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/1759/1759283.png')
 
@@ -90,7 +90,7 @@ class Menu(commands.Cog):
           anuncio2.set_image(url=f'{imagem_link}')
           if link_associado != '':
             anuncio2.add_field(name='link Associado', value=f'{link_associado}', inline=False)
-          await inter.send(embed=anuncio2,allowed_mentions=disnake.AllowedMentions(users=True), content='||@everyone||')
+          await inter.send(embed=anuncio2, allowed_mentions=disnake.AllowedMentions(users=True), content='||@everyone||')
         else:
             erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
             erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')

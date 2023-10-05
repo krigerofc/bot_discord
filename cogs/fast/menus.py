@@ -1,6 +1,7 @@
 import disnake
 from disnake.ext import commands
 
+
 class Velo(commands.Cog):
     def __init__(self, bot:commands.Bot):
         self.bot = bot
@@ -37,10 +38,13 @@ class Velo(commands.Cog):
           icon_url='https://cdn-icons-png.flaticon.com/512/1070/1070943.png')      
       
         await inter.send(embed=rules)
+
       elif inter.author.guild_permissions.administrator == False:
           erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
+
           erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')
           erro.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+          
           await inter.send(embed=erro)
 
 

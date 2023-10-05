@@ -8,7 +8,9 @@ class Economia(commands.Cog):
     def __init__(self, bot:commands.Bot):
         self.bot = bot
 
-    @commands.slash_command(name='daily', description='Pegue suas moedas do dia!')
+
+
+    @commands.slash_command(name='daily', description='[Economia] Pegue suas moedas do dia!')
     async def daily(self, inter:disnake.ApplicationCommandInteraction):
         
         id = inter.user.id
@@ -33,91 +35,122 @@ class Economia(commands.Cog):
             await inter.send(embed=dinheiro_embed)
         
 
+
         
-    @commands.slash_command(name='apostar', description='aposte para ganhar 2x mais moedas')
+    @commands.slash_command(name='apostar', description='[Economia] Aposte para ganhar 2x mais moedas')
     async def apostar(self, inter:disnake.ApplicationCommandInteraction, valor:int):
-        from random import randint
+        try:
+            from random import randint
 
-        msql.criar_user(inter.user.id)
-        moeda = msql.dinheiro_quantidade(inter.user.id)
-        numero_sorteado = randint(1, 10)
+            msql.criar_user(inter.user.id)
+            moeda = msql.dinheiro_quantidade(inter.user.id)
+            numero_sorteado = randint(1, 10)
 
 
-        cass_embed = disnake.Embed(title='🎲 **MAQUINA DE APOSTA** 💵', description=f'Você apostou **{valor}** moedas por 2x', colour=disnake.Colour.from_rgb(128, 0, 255))
-        cass_embed.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
-        cass_embed.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/445/445076.png')
+            cass_embed = disnake.Embed(title='🎲 **MAQUINA DE APOSTA** 💵', description=f'Você apostou **{valor}** moedas por 2x', colour=disnake.Colour.from_rgb(128, 0, 255))
+            cass_embed.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+            cass_embed.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/445/445076.png')
 
-        if moeda > 0 and valor <= moeda:
-            if numero_sorteado % 2 == 0:
-                
-                msql.dar_dinheiro(inter.user.id, valor)
-                moeda = msql.dinheiro_quantidade(inter.user.id)
+            if moeda > 0 and valor <= moeda:
+                if numero_sorteado % 2 == 0:
+                    msql.dar_dinheiro(inter.user.id, valor)
+                    moeda = msql.dinheiro_quantidade(inter.user.id)
 
-                cass_embed.colour = disnake.Colour.from_rgb(0, 190, 0)
-                cass_embed.add_field(name='💵 Resultado:', value=f'VOCÊ GANHOU!!!\nVocê acaba de ganhar: **{valor*2}**\n\nVocê tem um total de: **{moeda + valor}**', inline=True)
-                cass_embed.set_image(url='https://media2.giphy.com/media/qH1jQOvi4WVEvCRvOg/giphy.gif?cid=ecf05e474taefc7iywp2yonqlloe4o6qdj8p1mm5p5q3ubey&ep=v1_gifs_related&rid=giphy.gif&ct=g')
-                
-                await inter.send(embed=cass_embed)
-                
+                    cass_embed.colour = disnake.Colour.from_rgb(0, 190, 0)
+                    cass_embed.add_field(name='💵 Resultado:', value=f'VOCÊ GANHOU!!!\nVocê acaba de ganhar: **{valor*2}**\n\nVocê tem um total de: **{moeda}**', inline=True)
+                    cass_embed.set_image(url='https://media2.giphy.com/media/qH1jQOvi4WVEvCRvOg/giphy.gif?cid=ecf05e474taefc7iywp2yonqlloe4o6qdj8p1mm5p5q3ubey&ep=v1_gifs_related&rid=giphy.gif&ct=g')
+                    
+                    await inter.send(embed=cass_embed)
+                    
+                else:
+                    msql.remover_moedas(inter.user.id, valor)
+                    moeda = msql.dinheiro_quantidade(inter.user.id)
+
+                    cass_embed.colour = disnake.Colour.from_rgb(190, 0, 0)
+                    cass_embed.add_field(name='🎲 Resultado:', value=f'VOCÊ PERDEU!!\nVocê acaba de perder: **{valor}**\n\nVocê tem um total de: **{moeda}**', inline=True)
+                    cass_embed.set_image(url='https://media0.giphy.com/media/xT9DPi61MmrDLzVFzq/giphy.gif?cid=ecf05e47wkh55t0vix4956tkobg18jiq6mtioculabac9094&ep=v1_gifs_related&rid=giphy.gif&ct=g')
+
+                    await inter.send(embed=cass_embed)
             else:
-                msql.remover_moedas(inter.user.id, valor)
-                moeda = msql.dinheiro_quantidade(inter.user.id)
+                await inter.send('Você não tem essa quantidade de moedas')
+        except:
+            pass
 
-                cass_embed.colour = disnake.Colour.from_rgb(190, 0, 0)
-                cass_embed.add_field(name='🎲 Resultado:', value=f'VOCÊ PERDEU!!\nVocê acaba de perder: **{valor}**\n\nVocê tem um total de: **{moeda}**', inline=True)
-                cass_embed.set_image(url='https://media0.giphy.com/media/xT9DPi61MmrDLzVFzq/giphy.gif?cid=ecf05e47wkh55t0vix4956tkobg18jiq6mtioculabac9094&ep=v1_gifs_related&rid=giphy.gif&ct=g')
 
-                await inter.send(embed=cass_embed)
-        else:
-            await inter.send('Você não tem essa quantidade de moedas')
-    
-
-    @commands.slash_command(name='trabalhar', description='Trabalhe para conseguir moedinhas')
+    @commands.slash_command(name='trabalhar', description='[Economia] Trabalhe para conseguir moedinhas')
     async def trabalhar(self, inter:disnake.ApplicationCommandInteraction):
-        from random import randint
+        try:
+            from random import randint
 
-        msql.criar_user(inter.user.id)
+            msql.criar_user(inter.user.id)
+            sorte = randint(1, 100)
+            resultado = msql.dar_dinheiro_trabalho(id_discord=inter.user.id, sorte=sorte)
 
-        sorte = randint(1, 100)
+            if resultado[0] == 'Você foi roubado':
+                embed_roubo = disnake.Embed(title='🗣️ **MÃOS AO ALTO**!', description=f'\n\nHA HA HA! \nME PASSE TODO SEU DINHEIRO!\nAGORA!!', colour=disnake.Colour.from_rgb(190, 0, 0))
+                embed_roubo.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+                
+                embed_roubo.add_field(name='\n\n💸 Azar:', value=f'Você acabou de ser assaltado \ne acabou perdendo **{resultado[1]}** moedas', inline=True)
+                embed_roubo.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/7792/7792678.png')
+                embed_roubo.set_image(url='https://media0.giphy.com/media/HxgTc2NvIO6jowsknb/giphy.gif?cid=ecf05e47auktzk83nt6nxue9va4xz4bwxnpbtmtmten4hilr&ep=v1_gifs_related&rid=giphy.gif&ct=g')
 
-        resultado = msql.dar_dinheiro_trabalho(id_discord=inter.user.id, sorte=sorte)
+                await inter.send(embed=embed_roubo)
 
-        if resultado[0] == 'Você foi roubado':
-            embed_roubo = disnake.Embed(title='🗣️ **MÃOS AO ALTO**!', description=f'\n\nHA HA HA! \nME PASSE TODO SEU DINHEIRO!\nAGORA!!', colour=disnake.Colour.from_rgb(190, 0, 0))
-            embed_roubo.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
-            
-            embed_roubo.add_field(name='\n\n💸 Azar:', value=f'Você acabou de ser assaltado \ne acabou perdendo **{resultado[1]}** moedas', inline=True)
-            embed_roubo.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/7792/7792678.png')
-            embed_roubo.set_image(url='https://media0.giphy.com/media/HxgTc2NvIO6jowsknb/giphy.gif?cid=ecf05e47auktzk83nt6nxue9va4xz4bwxnpbtmtmten4hilr&ep=v1_gifs_related&rid=giphy.gif&ct=g')
+            elif resultado[0] == 'Você achou um presente':
+                embed_presente = disnake.Embed(title='📦 **UM PRESENTE MISTERIOSO**!', description=f'\n\nUAU!! Isso é incrível.\n Eu amei!', colour=disnake.Colour.from_rgb(128, 0, 255))
+                embed_presente .set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+                
+                embed_presente .add_field(name='\n\n⭐ Sorte em dobro:', value=f'Você ganhou um presente com\nUma carta e **{resultado[1]}** moedas!', inline=True)
+                embed_presente .set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/3850/3850991.png')
+                embed_presente .set_image(url='https://media1.giphy.com/media/xTiTnhCc4SeRW74zBK/giphy.gif?cid=ecf05e47kuxpnu27v16k9umwc951wx6zekywxb7gp8l543km&ep=v1_gifs_search&rid=giphy.gif&ct=g')
 
-            await inter.send(embed=embed_roubo)
+                await inter.send(embed=embed_presente)
+
+            else:
+                gifs = ['https://media3.giphy.com/media/ThrM4jEi2lBxd7X2yz/giphy.gif?cid=ecf05e47pgspx162ohxy0etpjly9ckefyrb05v6g25cwq1mu&ep=v1_gifs_search&rid=giphy.gif&ct=g',
+                        'https://media4.giphy.com/media/5Zesu5VPNGJlm/giphy.gif?cid=ecf05e47pgspx162ohxy0etpjly9ckefyrb05v6g25cwq1mu&ep=v1_gifs_search&rid=giphy.gif&ct=g',
+                        'https://media3.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif?cid=ecf05e47pgspx162ohxy0etpjly9ckefyrb05v6g25cwq1mu&ep=v1_gifs_search&rid=giphy.gif&ct=g',
+                        'https://media4.giphy.com/media/RH1IFq2GT0Oau8NRWX/giphy.gif?cid=ecf05e47f8axbmu4mlwjlau8lkd7cf55wwq5qxxaoqhuim8j&ep=v1_gifs_search&rid=giphy.gif&ct=g']
+                
+                embed_trabalho = disnake.Embed(title='🛠️ **Ao trabalho**!', description=f'\n\nVocê trabalhou muito e \nAgora é hora de receber!', colour=disnake.Colour.from_rgb(128, 0, 255))
+                embed_trabalho.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+                
+                embed_trabalho.add_field(name='\n\n💷 Dia de pagamento:', value=f'Você recebeu **{resultado[1]}** moedas', inline=True)
+                embed_trabalho.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/1716/1716764.png')
+                embed_trabalho.set_image(url=gifs[randint(0,len(gifs)-1)])
+
+                await inter.send(embed=embed_trabalho)
+        except:
+            pass
 
 
-        elif resultado[0] == 'Você achou um presente':
-            embed_presente = disnake.Embed(title='📦 **UM PRESENTE MISTERIOSO**!', description=f'\n\nUAU!! Isso é incrível.\n Eu amei!', colour=disnake.Colour.from_rgb(128, 190, 255))
-            embed_presente .set_author(name=inter.guild.name, icon_url=inter.guild.icon)
-            
-            embed_presente .add_field(name='\n\n⭐ Sorte em dobro:', value=f'Você ganhou um presente com\nUma carta e **{resultado[1]}** moedas!', inline=True)
-            embed_presente .set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/3850/3850991.png')
-            embed_presente .set_image(url='https://media1.giphy.com/media/xTiTnhCc4SeRW74zBK/giphy.gif?cid=ecf05e47kuxpnu27v16k9umwc951wx6zekywxb7gp8l543km&ep=v1_gifs_search&rid=giphy.gif&ct=g')
-
-            await inter.send(embed=embed_presente)
 
 
-        else:
-            gifs = ['https://media3.giphy.com/media/ThrM4jEi2lBxd7X2yz/giphy.gif?cid=ecf05e47pgspx162ohxy0etpjly9ckefyrb05v6g25cwq1mu&ep=v1_gifs_search&rid=giphy.gif&ct=g',
-                    'https://media4.giphy.com/media/5Zesu5VPNGJlm/giphy.gif?cid=ecf05e47pgspx162ohxy0etpjly9ckefyrb05v6g25cwq1mu&ep=v1_gifs_search&rid=giphy.gif&ct=g',
-                    'https://media3.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif?cid=ecf05e47pgspx162ohxy0etpjly9ckefyrb05v6g25cwq1mu&ep=v1_gifs_search&rid=giphy.gif&ct=g',
-                    'https://media4.giphy.com/media/RH1IFq2GT0Oau8NRWX/giphy.gif?cid=ecf05e47f8axbmu4mlwjlau8lkd7cf55wwq5qxxaoqhuim8j&ep=v1_gifs_search&rid=giphy.gif&ct=g']
-            
-            embed_trabalho = disnake.Embed(title='🛠️ **Ao trabalho**!', description=f'\n\nVocê trabalhou muito e \nAgora é hora de receber!', colour=disnake.Colour.from_rgb(128, 0, 255))
-            embed_trabalho.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
-            
-            embed_trabalho.add_field(name='\n\n💷 Dia de pagamento:', value=f'Você recebeu **{resultado[1]}** moedas', inline=True)
-            embed_trabalho.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/1716/1716764.png')
-            embed_trabalho.set_image(url=gifs[randint(0,len(gifs)-1)])
+    @commands.slash_command(name='transferir', description='[Economia] Faça uma transferência de dinheiro para alguém')
+    async def transferir(self, inter:disnake.ApplicationCommandInteraction, valor:int, membro:disnake.Member):
+        try:
+            msql.criar_user(inter.user.id)
+            msql.criar_user(membro.id)
 
-            await inter.send(embed=embed_trabalho)
+            moeda_user = msql.dinheiro_quantidade(inter.user.id)
+
+            if moeda_user > 0 and valor <= moeda_user:
+                msql.remover_moedas(inter.user.id, valor)
+                msql.dar_dinheiro(membro.id, valor)
+
+                Embed_transferencia = disnake.Embed(title='💸 Transferência', description='Sua conta está em movimentação!\nVocê acabou de fazer uma transferência.', colour=disnake.Colour.from_rgb(128, 0, 255))
+                Embed_transferencia.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+
+                Embed_transferencia.add_field(name='\n\n📨 ATM:', value=f'{inter.user.mention} Fez uma transferência!\n\nvocê acabou de enviar: **{valor}** moedas\npara o usuário: **{membro.mention}**', inline=True)
+                Embed_transferencia.set_thumbnail(url=membro.avatar.url)
+                Embed_transferencia.set_image(url='https://media2.giphy.com/media/oCnqvqgc1H1Ac/giphy.gif?cid=ecf05e478vvgcgl9u2kox1sfdqetmcv6tfnztp43z17t1xjj&ep=v1_gifs_related&rid=giphy.gif&ct=g')
+
+                await inter.send(embed=Embed_transferencia, allowed_mentions=disnake.AllowedMentions(users=True), content=f'||{inter.user.mention}{membro.mention}||')
+            else:
+                await inter.send('Você não tem essa quantidade de moedas')
+        except:
+            pass
+
 
 
 
