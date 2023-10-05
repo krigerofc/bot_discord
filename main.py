@@ -17,4 +17,4 @@ async def on_ready():
   await bot.change_presence(activity=disnake.Activity(name='Use /comandos para ver os comandos', type=disnake.ActivityType.playing))
 # iniciando o bot de chave ---
 
-bot.run("NjExODE1MjM2NTkyMjA1ODI0.GiJRrB.2b5Xd4OOo9DyzqzDZwPshxT6As9rZaKlDK3EgU")
+bot.run("NjExODE1MjM2NTkyMjA1ODI0.GzLzur._LSPcA-vF0aaOzU4b74lIADaga4FZ4H7Rpej3M")

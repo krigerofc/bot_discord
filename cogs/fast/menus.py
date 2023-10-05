@@ -82,9 +82,9 @@ class Velo(commands.Cog):
 **Ticket** Crie um chat suporte
 
 **Diversão:**
-**/beijar**Para dar beijinhos
-**/Tapa**Bata em alguém
-**/Abraçar**Dê um abraço''',colour=disnake.Colour.from_rgb(128, 0, 255))
+**/beijar** Para dar beijinhos
+**/Tapa** Bata em alguém
+**/Abraçar** Dê um abraço''',colour=disnake.Colour.from_rgb(128, 0, 255))
 
        
        ajuda.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
