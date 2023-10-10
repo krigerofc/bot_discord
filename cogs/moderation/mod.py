@@ -7,13 +7,35 @@ class Menu(commands.Cog):
         #definimos que o bot deve ser do tipo commands.Bot ou seja o parametro só aceita esse tipo 
         self.bot = bot     
 
-    @commands.slash_command(name="rr", description="reini")
+    @commands.slash_command(name="rr", description="[STAFF] reini")
     async def rr(self,inter:disnake.ApplicationCommandInteraction):
       await inter.send('Bot desligado')
       await self.bot.close()
+
+
+    @commands.slash_command(name="bloquear", description="[STAFF] bloquear chat")
+    async def bloquear(self,inter: disnake.ApplicationCommandInteraction):
+      print('oppaa')
+
+    
+    @commands.slash_command(name="desbloquear", description="[STAFF] desbloquear")
+    async def desbloquear(self,inter:disnake.ApplicationCommandInteraction):
+      if inter.author.guild_permissions.manage_channels:
+        await inter.channel.set_permissions(send_messages=True)
+
+        await inter.send('Chat desbloqueado!')
+      else:
+        erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
+
+        erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')
+        erro.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+        
+        await inter.send(embed=erro)
+
+
     
     #comando e kick
-    @commands.slash_command(naame='kick', description='de kick a um membro que não está nos conformes')
+    @commands.slash_command(name='kick', description='[STAFF] Dê kick a um membro que não está nos conformes')
     async def kick(self, inter:disnake.ApplicationCommandInteraction, member:disnake.Member, razao):
       try:
         if inter.author.guild_permissions.kick_members: # verificar se tem permissão de admin
@@ -34,16 +56,19 @@ class Menu(commands.Cog):
 
           embed.set_image(url='https://media1.giphy.com/media/KmqxlCZgIUWe3z4yRD/giphy.gif?cid=ecf05e47pwckiq0u9x2i1ltvlncf19ou3xrtno2qdaqeftas&rid=giphy.gif&ct=g')
           await inter.send(embed=embed) #criação do embed e executalo no final 
+
         elif inter.author.guild_permissions.administrator == False:
           erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
+
           erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')
           erro.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+
           await inter.send(embed=erro)
       except:
         await inter.send('O bot não tem permissão para isso.')# caso tente se auto expulsar, expulsar superioes e etc
 
 
-    @commands.slash_command(name='ban', description='Dê ban aos membros que não estão seguindo as regras')
+    @commands.slash_command(name='ban', description='[STAFF] Dê ban aos membros que não estão seguindo as regras')
     async def ban(self, inter:disnake.ApplicationCommandInteraction, membro:disnake.Member, razao):
       try:
         if inter.author.guild_permissions.ban_members:
@@ -68,39 +93,53 @@ class Menu(commands.Cog):
           
         elif inter.author.guild_permissions.administrator == False:
           erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
+
           erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')
           erro.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+
           await inter.send(embed=erro)
       except:
           await inter.send('O bot não pode fazer isso.')
 
-    @commands.slash_command(name='anunciar',description='Use o bot para anunciar algo')
-    async def anuncio(self,inter:disnake.ApplicationCommandInteraction, anuncio, anuncio_desc, link_associado='', imagem_link='', categoria='', texto_cate='', categoria2='', texto_cate2=''):
+
+
+
+    @commands.slash_command(name='anunciar',description='[STAFF] Use o bot para anunciar algo')
+    async def anuncio(self,inter:disnake.ApplicationCommandInteraction, anuncio_titulo, anuncio_descrição, link_associado='',
+                       imagem_link='', categoria='', texto_cate1='', categoria2='', texto_cate2=''):
         if inter.author.guild_permissions.manage_messages:
-          anuncio2 = disnake.Embed(title=anuncio, description=anuncio_desc, colour=disnake.Colour.from_rgb(128, 0, 255))
+          anuncio2 = disnake.Embed(title=anuncio_titulo, description=anuncio_descrição, colour=disnake.Colour.from_rgb(128, 0, 255))
 
           anuncio2.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/1759/1759283.png')
 
           anuncio2.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
 
-          anuncio2.add_field(name=categoria, value=texto_cate, inline=False)
+          anuncio2.add_field(name=categoria, value=texto_cate1, inline=False)
 
           anuncio2.add_field(name=categoria2, value=texto_cate2, inline=False)
 
           anuncio2.set_image(url=f'{imagem_link}')
+
           if link_associado != '':
             anuncio2.add_field(name='link Associado', value=f'{link_associado}', inline=False)
+
           await inter.send(embed=anuncio2, allowed_mentions=disnake.AllowedMentions(users=True), content='||@everyone||')
+
         else:
             erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
+
             erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')
             erro.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+            
             await inter.send(embed=erro)
 
-    @commands.slash_command(name='clear', description='quantidade de mensagens')
+
+
+    @commands.slash_command(name='clear', description='[STAFF] quantidade de mensagens')
     async def apagar(self, inter:disnake.ApplicationCommandInteraction, quantidade:int):
       if inter.author.guild_permissions.manage_messages:
         await inter.channel.purge(limit=quantidade)
+
         limpo = disnake.Embed(title='Limpeza!', description='**Mensagens apagadas**', colour=disnake.Colour.from_rgb(128, 0, 255))
 
         limpo.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
@@ -110,31 +149,43 @@ class Menu(commands.Cog):
         limpo.add_field(name='Staff:', value=inter.author.name, inline=True)
 
         limpo.add_field(name='Quantidade:', value=f'{quantidade} mensagens apagadas.', inline=True)
+
         await inter.send(embed=limpo)
+
       else:
         erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
+
         erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')
         erro.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+
         await inter.send(embed=erro)
 
 
-    @commands.slash_command(name='ticket', description='Abra ticket de suporte para os staff te ajudarem')
+    @commands.slash_command(name='ticket', description='[STAFF] Abra ticket de suporte para os staff te ajudarem')
     async def criar(self, inter:disnake.ApplicationCommandInteraction, id_cargo_staff):
       if inter.author.guild_permissions.administrator:
+        
         ticket  = disnake.Embed(title='🔔 Suporte 24h', description='Olá, este é o chat de suporte.\nCaso tenha alguma dúvida ou problema basta apertar o botão abaixo e um ticket será criado, assim um staff irá te ajudar!', colour=disnake.Colour.from_rgb(128, 0, 255))
+        
         ticket.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/5821/5821865.png')
         ticket.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+
         visual = disnake.ui.View(timeout=None)
         menu = disnake.ui.Button(label='Abrir ticket', custom_id='ticket1', style=disnake.ButtonStyle.blurple, emoji='📢')
+
         menu.is_persistent()
 
         async def criar_ticker(inter:disnake.MessageInteraction):
           staff = disnake.utils.get(inter.guild.roles, id=int(id_cargo_staff))
           verificar = inter.channel.threads
+
           if disnake.utils.get(verificar, name=inter.author.name):
+
             alerta = disnake.Embed(title='Opa, opa...', description='Você já tem um ticket em aberto!!\nAguarde ou feche o anterior.', colour=disnake.Colour.from_rgb(128, 0, 255))
             alerta.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/3472/3472621.png')
             alerta.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+
+
             dm = await inter.author.create_dm()
             await dm.send(embed=alerta)
             await inter.send('Ops, verifique seu privado...', delete_after=5, ephemeral=True)
@@ -148,11 +199,15 @@ class Menu(commands.Cog):
 
             visual2 = disnake.ui.View(timeout=None)
             fechar_ticket = disnake.ui.Button(label='Fechar ticket', emoji='❌', style=disnake.ButtonStyle.blurple, custom_id='fechar')
+
+  
             async def fechar(inter:disnake.MessageInteraction):
               await thread.delete(reason='Ticket encerrado')
 
+
             visual2.add_item(fechar_ticket) 
             fechar_ticket.callback = fechar
+            
             await thread.send(embed=new_chat , content=f'||{inter.author.mention} {staff.mention}||', view=visual2)
             await inter.send('Ticket criado com sucesso', delete_after=5, ephemeral=True )
             
@@ -160,10 +215,13 @@ class Menu(commands.Cog):
         visual.add_item(menu)
         menu.callback = criar_ticker
         await inter.send(embed=ticket, view=visual)
+
       else:
         erro = disnake.Embed(title='ALERTA!!', description='**Apenas para STAFFS**', colour=disnake.Colour.from_rgb(255, 0, 0))
+
         erro.set_thumbnail(url='https://cdn-icons-png.flaticon.com/512/2780/2780146.png')
         erro.set_author(name=inter.guild.name, icon_url=inter.guild.icon)
+
         await inter.send(embed=erro)
 
     #@commands.slash_command(name='mute', description='Mute um')

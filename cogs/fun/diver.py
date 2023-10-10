@@ -1,10 +1,5 @@
 import disnake
 from disnake.ext import commands
-import cogs.dados as dados
-
-
-msql = dados.Msql_dados()
-
 
 class Diversao(commands.Cog):
     def __init__(self, bot:commands.Bot):
@@ -12,7 +7,7 @@ class Diversao(commands.Cog):
 
 
 
-    @commands.slash_command(name='dado', description='Role um dado de 1-20')
+    @commands.slash_command(name='dado', description='[FUN] Role um dado de 1-20')
     async def dado(self, inter:disnake.ApplicationCommandInteraction):
         from random import randint
 
@@ -26,7 +21,7 @@ class Diversao(commands.Cog):
 
 
 
-    @commands.slash_command(name='say', description='Irei falar algo que você mandar')
+    @commands.slash_command(name='say', description='[FUN] Irei falar algo que você mandar')
     async def say(self, inter:disnake.ApplicationCommandInteraction, texto):
 
         txt = f'{texto}'
@@ -36,7 +31,7 @@ class Diversao(commands.Cog):
     #---------------------------------------------------------
 
 
-    @commands.slash_command(name='userinfo', description='Descrição de um membro')
+    @commands.slash_command(name='userinfo', description='[FUN] Descrição de um membro')
     async def info(self, inter:disnake.ApplicationCommandInteraction, membro:disnake.Member):
         
         info = disnake.Embed(title='User info', description=f'Informações do usuário: **{membro.name}**!\n ', colour=disnake.Colour.from_rgb(128, 0, 255))
@@ -59,16 +54,6 @@ class Diversao(commands.Cog):
 
         info.add_field(name='', value=f'', inline=False)
         info.add_field(name='🎫 Id:', value=f'{membro.id}', inline=False)
-        
-        info.add_field(name='💰 Moedas:', value=f'{msql.dinheiro_quantidade(id_user)}', inline=True)
-        info.add_field(name='💎 Diamantes:', value=f'{msql.diamantes_quantidade(id_user)}\n', inline=True)
-
-        info.add_field(name='', value=f'', inline=False)
-
-        info.add_field(name='💕 Relacionamento:', value=f'{msql.relacionamento_status(id_user)}', inline=True)
-        info.add_field(name='📜 Status:', value=f'{msql.player_status(id_user)}', inline=True)
-        
-
 
         view = disnake.ui.View()
         botao = disnake.ui.Button(label='Avatar', custom_id='Avatar', style=disnake.ButtonStyle.blurple, emoji='🖼')
@@ -88,20 +73,19 @@ class Diversao(commands.Cog):
    #---------------------------------------------------------
 
 
-    @commands.slash_command(name='abraçar', description='de um abraço em alguém')
+    @commands.slash_command(name='abraçar', description='[FUN] de um abraço em alguém')
     async def abracar(self, inter:disnake.ApplicationCommandInteraction, membro:disnake.Member):
         try:
             from random import randint
-            gifs = ['https://media0.giphy.com/media/PHZ7v9tfQu0o0/giphy.gif?cid=ecf05e478tirtncbbkk6j160hi603fzfhu2ltwmwm6f8nn1x&rid=giphy.gif&ct=g',
-                    'https://media2.giphy.com/media/Y8wCpaKI9PUBO/giphy.gif?cid=ecf05e47m9m1nmm4740zcvi0pp1l99crvd7yroek3foj4dkg&rid=giphy.gif&ct=g',
-                    'https://media3.giphy.com/media/143v0Z4767T15e/giphy.gif?cid=ecf05e478tirtncbbkk6j160hi603fzfhu2ltwmwm6f8nn1x&rid=giphy.gif&ct=g',
-                    'https://media1.giphy.com/media/5eyhBKLvYhafu/giphy.gif?cid=ecf05e47jyeie0o5gq4jsd8g12zonv0x0cxksjiulhs75xuu&rid=giphy.gif&ct=g',
-                    'https://media1.giphy.com/media/lrr9rHuoJOE0w/giphy.gif?cid=ecf05e47hsb3ouy954fin75vy0az49elhwbfb1i9o6ck7pre&rid=giphy.gif&ct=g',
-                    'https://media1.giphy.com/media/ythHeq4Qgx2De/giphy.gif?cid=ecf05e47jyeie0o5gq4jsd8g12zonv0x0cxksjiulhs75xuu&rid=giphy.gif&ct=g']
-            sorteio = randint(0, len(gifs))
-
+            gifs = {1:'https://media0.giphy.com/media/PHZ7v9tfQu0o0/giphy.gif?cid=ecf05e478tirtncbbkk6j160hi603fzfhu2ltwmwm6f8nn1x&rid=giphy.gif&ct=g',
+                    2:'https://media2.giphy.com/media/Y8wCpaKI9PUBO/giphy.gif?cid=ecf05e47m9m1nmm4740zcvi0pp1l99crvd7yroek3foj4dkg&rid=giphy.gif&ct=g',
+                    3:'https://media3.giphy.com/media/143v0Z4767T15e/giphy.gif?cid=ecf05e478tirtncbbkk6j160hi603fzfhu2ltwmwm6f8nn1x&rid=giphy.gif&ct=g',
+                    4:'https://media1.giphy.com/media/5eyhBKLvYhafu/giphy.gif?cid=ecf05e47jyeie0o5gq4jsd8g12zonv0x0cxksjiulhs75xuu&rid=giphy.gif&ct=g',
+                    5:'https://media1.giphy.com/media/lrr9rHuoJOE0w/giphy.gif?cid=ecf05e47hsb3ouy954fin75vy0az49elhwbfb1i9o6ck7pre&rid=giphy.gif&ct=g',
+                    6:'https://media1.giphy.com/media/ythHeq4Qgx2De/giphy.gif?cid=ecf05e47jyeie0o5gq4jsd8g12zonv0x0cxksjiulhs75xuu&rid=giphy.gif&ct=g'}
+            
             hug = disnake.Embed(title='💗!', description=f'{inter.author.mention} **deu um abraço em** {membro.mention}', colour=disnake.Colour.from_rgb(128, 0, 255))
-            hug.set_image(url=gifs[sorteio])
+            hug.set_image(url=gifs[randint(1, 6)])
 
             await inter.send(embed=hug, allowed_mentions=disnake.AllowedMentions(users=True), content=f'||{inter.author.mention} {membro.mention}||')
         except:
@@ -110,20 +94,20 @@ class Diversao(commands.Cog):
 
 
 
-    @commands.slash_command(name='beijar', description='de um beijo em alguém')
+    @commands.slash_command(name='beijar', description='[FUN] Dê um beijo em alguém')
     async def kiss(self, inter:disnake.ApplicationCommandInteraction, membro:disnake.Member):
         try:
             from random import randint
 
-            gifs = ['https://media2.giphy.com/media/wOtkVwroA6yzK/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
-                    'https://media4.giphy.com/media/FqBTvSNjNzeZG/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
-                    'https://media4.giphy.com/media/QGc8RgRvMonFm/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
-                    'https://media3.giphy.com/media/11rWoZNpAKw8w/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
-                    'https://media0.giphy.com/media/EVODaJHSXZGta/giphy.gif?cid=ecf05e47lry0kafea5bw41atharic9wrdrb9mtgj8e6pq0al&rid=giphy.gif&ct=g']
-            sorteio = randint(0, len(gifs))
+            gifs = {1:'https://media2.giphy.com/media/wOtkVwroA6yzK/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
+                    2:'https://media4.giphy.com/media/FqBTvSNjNzeZG/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
+                    3:'https://media4.giphy.com/media/QGc8RgRvMonFm/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
+                    4:'https://media3.giphy.com/media/11rWoZNpAKw8w/giphy.gif?cid=ecf05e478cs2c10ogv744jjx4la3x8a1lipv9e0zwvcwo0rn&rid=giphy.gif&ct=g',
+                    5:'https://media0.giphy.com/media/EVODaJHSXZGta/giphy.gif?cid=ecf05e47lry0kafea5bw41atharic9wrdrb9mtgj8e6pq0al&rid=giphy.gif&ct=g'}
+
 
             bj = disnake.Embed(title='💕!', description=f'{inter.author.mention} **deu um beijo em** {membro.mention}', colour=disnake.Colour.from_rgb(128, 0, 255))
-            bj.set_image(url=gifs[sorteio])
+            bj.set_image(url=gifs[randint(0, 5)])
 
             await inter.send(embed=bj, allowed_mentions=disnake.AllowedMentions(users=True), content=f'||{inter.author.mention} {membro.mention}||')
         except:
@@ -132,19 +116,18 @@ class Diversao(commands.Cog):
 
 
 
-    @commands.slash_command(name='tapa', description='você pode da um tapa em alguém')
+    @commands.slash_command(name='tapa', description='[FUN] você pode da um tapa em alguém')
     async def tapa(self, inter:disnake.ApplicationCommandInteraction, membro:disnake.Member):
         try:
             from random import randint
 
-            gifs = ['https://media3.giphy.com/media/Zau0yrl17uzdK/giphy.gif?cid=ecf05e47qzu1f69ucu63j8d2mvh31ivz5rfyl7nzqb4347ej&rid=giphy.gif&ct=g',
-                    'https://media3.giphy.com/media/Gf3AUz3eBNbTW/giphy.gif?cid=ecf05e47qzu1f69ucu63j8d2mvh31ivz5rfyl7nzqb4347ej&rid=giphy.gif&ct=g',
-                    'https://media1.giphy.com/media/k1uYB5LvlBZqU/giphy.gif?cid=ecf05e47qzu1f69ucu63j8d2mvh31ivz5rfyl7nzqb4347ej&rid=giphy.gif&ct=g',
-                    'https://media3.giphy.com/media/xUNd9HZq1itMkiK652/giphy.gif?cid=ecf05e47qzu1f69ucu63j8d2mvh31ivz5rfyl7nzqb4347ej&rid=giphy.gif&ct=g']
-            sorteio = randint(0, len(gifs))
+            gifs = {1:'https://media3.giphy.com/media/Zau0yrl17uzdK/giphy.gif?cid=ecf05e47qzu1f69ucu63j8d2mvh31ivz5rfyl7nzqb4347ej&rid=giphy.gif&ct=g',
+                    2:'https://media3.giphy.com/media/Gf3AUz3eBNbTW/giphy.gif?cid=ecf05e47qzu1f69ucu63j8d2mvh31ivz5rfyl7nzqb4347ej&rid=giphy.gif&ct=g',
+                    3:'https://media1.giphy.com/media/k1uYB5LvlBZqU/giphy.gif?cid=ecf05e47qzu1f69ucu63j8d2mvh31ivz5rfyl7nzqb4347ej&rid=giphy.gif&ct=g',
+                    4:'https://media3.giphy.com/media/xUNd9HZq1itMkiK652/giphy.gif?cid=ecf05e47qzu1f69ucu63j8d2mvh31ivz5rfyl7nzqb4347ej&rid=giphy.gif&ct=g'}
 
             tapa = disnake.Embed(title='🚨 Treta!', description=f'{inter.author.mention} **deu um tapa em** {membro.mention}', colour=disnake.Colour.from_rgb(128, 0, 255))
-            tapa.set_image(url=gifs[sorteio])
+            tapa.set_image(url=gifs[randint(1,4)])
 
             await inter.send(embed=tapa, allowed_mentions=disnake.AllowedMentions(users=True), content=f'||{inter.author.mention} {membro.mention}||')
         except:
