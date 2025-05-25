@@ -1,6 +1,6 @@
 <h1>discord-bot</h1>
  
->Status :  Online ✔️
+>Status :  Offline❌
 
 Estou desenvolvendo esse bot administrativos para servidores do discord.
 
